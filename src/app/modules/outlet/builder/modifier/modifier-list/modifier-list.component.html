@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-body">
+    <div class="text-center">
+      <button class="btn btn-success" type="button" [routerLink]="['../modifier/add/new']">
+        <i class="fa fa-plus"></i> &nbsp; Add Modifier</button>
+    </div>
+    <br>
+    <div>
+      <table class="table table-bordered table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let modifier of modifierList | async">
+            <td>{{ modifier.name }}</td>
+            <td class="actionList">
+              <button class="btn btn-sm btn-info" type="button" [routerLink]="['../modifier/edit', modifier.id]">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" type="button" (click)="deleteModifier($event, modifier.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

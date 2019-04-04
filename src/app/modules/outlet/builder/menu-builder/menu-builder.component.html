@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-3">
+    <ngb-tabset #tab="ngbTabset">
+      <ngb-tab id="tab-category">
+        <ng-template ngbTabTitle>
+          <b>Category</b>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <outlet-category-list></outlet-category-list>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-addon">
+        <ng-template ngbTabTitle>
+          <b>Modifier</b>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <outlet-modifier-list></outlet-modifier-list>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+  <div class="col-md-9">
+    <outlet-menu-item-list></outlet-menu-item-list>
+  </div>
+</div>

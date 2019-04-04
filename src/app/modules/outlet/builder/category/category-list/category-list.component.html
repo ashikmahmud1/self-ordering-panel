@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-body">
+    <div class="text-center">
+      <button class="btn btn-success" type="button" [routerLink]="['../category/add/new']">
+        <i class="fa fa-plus"></i> &nbsp; Add Category</button>
+    </div>
+    <br>
+    <div>
+      <table class="table table-bordered table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categoryList | async">
+            <td>{{ category.name }}</td>
+            <td class="actionList">
+              <button class="btn btn-sm btn-info" type="button" [routerLink]="['../category/edit', category.id]">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" type="button" (click)="deleteCategory($event, category.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

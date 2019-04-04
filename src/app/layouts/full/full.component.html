@@ -1,0 +1,33 @@
+<div id="main-wrapper" [ngClass]="
+  {
+    'defaultdark': color == 'defaultdark',
+    'greendark': color == 'greendark',
+    'reddark': color == 'reddark',
+    'bluedark': color == 'bluedark',
+    'purpledark': color == 'purpledark',
+    'megnadark': color == 'megnadark',
+    'default': color == 'default',
+    'green': color == 'green',
+    'red': color == 'red',
+    'blue': color == 'blue',
+    'purple': color == 'purple',
+    'megna': color == 'megna',
+    'mini-sidebar': showMinisidebar,
+    'dark-theme': showDarktheme,
+    'horizontal-nav': showHorizontalNav,
+    'boxed': showBoxedtheme
+  }
+">
+  <ap-navigation></ap-navigation>
+  <aside class="left-sidebar">
+    <ap-sidebar></ap-sidebar>
+  </aside>
+  <div class="page-wrapper">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <footer class="footer">
+    © 2018 DevFood
+  </footer>
+</div>

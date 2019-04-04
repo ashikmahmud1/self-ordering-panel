@@ -1,0 +1,59 @@
+<div class="login-register" style="background-image:url(assets/images/background/login-register.jpg);">
+  <div class="login-box card">
+    <div class="card-body">
+      <form class="form-horizontal form-material" id="signupform" #SignupForm="ngForm" (ngSubmit)="signup(SignupForm)">
+        <h3 class="box-title m-b-20">Sign Up</h3>
+        <div class="form-group">
+          <input class="form-control" type="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Email" ngModel #userEmail="ngModel">
+          <div *ngIf="userEmail.invalid && (userEmail.dirty || userEmail.touched)" class="alert alert-danger">
+            <div *ngIf="userEmail.errors.required">Email is required.</div>
+            <div *ngIf="userEmail.errors.pattern && userEmail?.value != ''">Email should be in proper format.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="password" minlength="6" required placeholder="Password" ngModel #userPass="ngModel">
+          <div *ngIf="userPass.invalid && (userPass.dirty || userPass.touched)" class="alert alert-danger">
+            <div *ngIf="userPass.errors.required">Password is required.</div>
+            <div *ngIf="userPass.errors.minlength">Must be at least 6 characters long.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="confirmpassword" minlength="6" required placeholder="Confirm Password" ngModel #confirmPass="ngModel">
+          <div *ngIf="(!confirmPass.invalid && (confirmPass.value != userPass.value)) && (confirmPass.dirty || confirmPass.touched)" class="alert alert-danger">
+            <div>Password does not match.</div>
+          </div>
+          <div *ngIf="confirmPass.invalid && (confirmPass.dirty || confirmPass.touched)" class="alert alert-danger">
+            <div *ngIf="confirmPass.errors.required">Password is required.</div>
+            <div *ngIf="confirmPass.errors.minlength">Must be at least 6 characters long.</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div class="checkbox checkbox-success p-t-0">
+              <input id="checkbox-signup" type="checkbox" required="" class="filled-in chk-col-light-blue">
+              <label for="checkbox-signup"> I agree to all <a href="javascript:void(0)">Terms</a></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-center m-t-20">
+          <div class="col-xs-12">
+            <button type="submit" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" [disabled]="SignupForm.invalid || (confirmPass.value != userPass.value)">Sign Up</button>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
+            <div class="social">
+              <button type="button" class="btn btn-facebook" title="Login with Facebook" (click)="signInWithFacebook()"> <i aria-hidden="true" class="mdi mdi-facebook"></i></button>
+              <button type="button" class="btn btn-googleplus" title="Login with Google" (click)="signInWithGoogle()"> <i aria-hidden="true" class="mdi mdi-google"></i></button>
+            </div>
+          </div>
+        </div> -->
+        <div class="form-group m-b-0">
+          <div class="col-sm-12 text-center">
+          Already have an account? <a class="text-info m-l-5" [routerLink]="['/auth/login']"><b>Sign In</b></a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

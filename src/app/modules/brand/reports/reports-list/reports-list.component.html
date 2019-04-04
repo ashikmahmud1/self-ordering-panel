@@ -1,0 +1,124 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Order ID: {{reports.order_id}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">Items</h4>
+        <hr>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cartItem of reports?.carts">
+              <th>{{cartItem?.name}}</th>
+              <th>{{cartItem?.quantity}}</th>
+              <th>{{cartItem?.price}}</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th>Total</th>
+              <th>{{reports.total?.amount}}</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th>Discount Amount</th>
+              <th>{{reports.total?.discount_amount}}</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th>Final Amount</th>
+              <th>{{reports.total?.final_amount}}</th>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">Delivery Address</h4>
+        <hr>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order Type :</th>
+              <th>{{reports.order_type}}</th>
+            </tr>
+            <tr>
+              <th>Payment :</th>
+              <th>{{reports.payment}}</th>
+            </tr>
+            <tr>
+              <th>Address Name :</th>
+              <th>{{reports.address?.name}}</th>
+            </tr>
+            <tr>
+              <th>Locality :</th>
+              <th>{{reports.address?.locality}}</th>
+            </tr>
+            <tr>
+              <th>Phone :</th>
+              <th>+{{reports.uid}}</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+<div class="row">
+  <!-- <div class="col-lg-2"></div> -->
+  <div class="col-lg-12">
+    <h1 class="text-center">Reports</h1>
+    <div class="card">
+      <div class="card-body">
+        <br>
+        <div>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Customer Name</th>
+                <th>Outlet</th>
+                <th>Payment</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Order Time</th>
+                <th>Grand Total</th>
+                <th>Mobile No</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let reports of reportsList | async">
+                <td>{{ reports.other.cusName }}</td>
+                <td>{{ getOutlet(reports.outletId) }}</td>
+                <td>{{ reports.payment }}</td>
+                <td>{{ reports.order_type }}</td>
+                <td>{{ reports.status }}</td>
+                <td>{{ reports.timeslot.seconds * 1000 | date }} - {{ reports.timeslot.seconds * 1000 | date:'shortTime' }}</td>
+                <td>{{ reports.total.final_amount }}</td>
+                <td>+{{ reports.uid }}</td>
+                <td class="text-center">
+                  <button class="btn btn-primary" (click)="viewDetails(content, reports)">View Details</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

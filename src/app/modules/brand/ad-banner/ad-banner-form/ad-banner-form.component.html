@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="text-center title" *ngIf="!adBannerID">Add Ad Banner</h1>
+    <h1 class="text-center title" *ngIf="adBannerID">Edit Ad Banner</h1>
+    <form class="form-horizontal" id="adBannerForm" #AdBanner="ngForm" (ngSubmit)="addAdBannerForm(AdBanner)">
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+
+
+                <input type="file" (change)="uploadFile($event, 'image')" accept=".png,.jpg" />
+                <input type="hidden" name="image" [ngModel]="adBanner?.image">
+                <br>
+                <br>
+                <span class="help-block">
+                  <small> Maximum File Size : 5mb. Supported file formats : .png & .jpg </small>
+                </span>
+                <div *ngIf="adBanner?.image">
+                  <img [src]="adBanner?.image" class="adBanner-img-big-icon">
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('image')">Delete</button>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label>Title
+                  <span>*</span>
+                </label>
+                <input class="form-control" type="text" name="title" required [ngModel]="adBanner?.title" #title="ngModel">
+                <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+                  <div *ngIf="title.errors.required">Title is required.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>URL</label>
+                <input class="form-control" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+                  type="text" name="url" [ngModel]="adBanner?.url" #url="ngModel">
+                <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+                  <div [hidden]="!url.errors.pattern">
+                    Enter a valid URL!
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Sort Weight
+                </label>
+                <input class="form-control" type="number" name="sort" [ngModel]="adBanner?.sort" #sort="ngModel">
+                <span class="help-block">
+                  <small> Enter higher value to list this item at the top of the category. (Ex. 100) </small>
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="adBannerID">Update</button>
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="!adBannerID">Submit</button>
+        <button type="button" class="btn btn-lg btn-inverse waves-effect waves-light" [routerLink]="['/brand/ad-banner/list']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

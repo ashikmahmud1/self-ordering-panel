@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="text-center title" *ngIf="!userID">Add User</h1>
+    <h1 class="text-center title" *ngIf="userID">Edit User</h1>
+    <br>
+    <form class="form-horizontal" id="userForm" #UserForm="ngForm" (ngSubmit)="addUser(UserForm)">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label>User Name
+                  <span>*</span>
+                </label>
+                <input class="form-control" type="text" name="name" required [ngModel]="user?.name" #name="ngModel">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                  <div *ngIf="name.errors.required">User Name is required.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Email
+                  <span>*</span>
+                </label>
+                <input class="form-control" type="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [ngModel]="user?.email"
+                  #email="ngModel">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                  <div *ngIf="email.errors.required">E-mail is required.</div>
+                  <div *ngIf="email.errors.pattern && email?.value != ''">Email should be in proper format.</div>
+                </div>
+                <span class="help-block">
+                  <small> Email address should be unique and cannot be used anywhere else on the system for other roles / outlets.</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label>Password
+                  <span>*</span>
+                </label>
+                <input class="form-control" type="password" name="pass" required minlength="6" [ngModel]="user?.pass" #pass="ngModel">
+                <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="alert alert-danger">
+                  <div *ngIf="pass.errors.required">Password is required.</div>
+                  <div *ngIf="pass.errors.minlength">Must be at least 6 characters long.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Position </label>
+                <br />
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="outletOwner" required name="role" [ngModel]="user?.role" #role="ngModel"
+                        value="Owner">
+                      <label class="custom-control-label" for="outletOwner">Outlet Owner</label>
+                    </div>
+                    <span class="help-block">
+                      <small> Will have complete access to the outlet from Admin App & Admin Panel.</small>
+                    </span>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="outletManager" required name="role" [ngModel]="user?.role" #role="ngModel"
+                        value="Manager">
+                      <label class="custom-control-label" for="outletManager">Outlet Manager</label>
+                    </div>
+                    <span class="help-block">
+                      <small> Will have access to Admin App only. No Admin Panel Access.</small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="userID">Update</button>
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="!userID">Submit</button>
+        <button type="button" class="btn btn-lg btn-inverse waves-effect waves-light" [routerLink]="['../..']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

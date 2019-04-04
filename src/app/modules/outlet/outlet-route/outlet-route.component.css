@@ -1,0 +1,9 @@
+.nav-link.dropdown-toggle {
+  cursor: pointer;
+}
+
+.navbar-nav .nav-link.active {
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #745af2;
+}

@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <a class="navbar-brand">Manage Outlet</a>
+  <button class="navbar-toggler" type="button" (click)="showMobileMenu = !showMobileMenu">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse" [ngClass]="{'collapse': !showMobileMenu}">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['menu-builder']">Manage</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['menu']">Menu</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle">
+          POS
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['pos-item']">POS Item</a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['pos-modifier']">POS Modifier</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['user']">User</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <select class="custom-select" name="routeOutlet" (change)="outletChangeRoute()" [(ngModel)]="outletIDSelect">
+        <option *ngFor="let option of outletList" [value]="option.id" [selected]="option.id === outletID">{{option.name}}</option>
+      </select>
+    </form>
+  </div>
+</nav>
+<br>
+<router-outlet></router-outlet>

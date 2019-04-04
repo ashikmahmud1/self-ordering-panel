@@ -1,0 +1,167 @@
+<div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
+    <h1 class="text-center title" *ngIf="!menuItemID">Add Menu Item</h1>
+    <h1 class="text-center title" *ngIf="menuItemID">Edit Menu Item</h1>
+    <form class="form-horizontal" id="menuItemForm" #MenuItemForm="ngForm" (ngSubmit)="addMenuItem(MenuItemForm)">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="isDisabled" name="isDisabled" [ngModel]="menuItem?.isDisabled" #isDisabled="ngModel">
+                  <label class="custom-control-label" for="isDisabled">Disable</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Item Name
+                  <span>*</span>
+                </label>
+                <input class="form-control" type="text" name="name" required [ngModel]="menuItem?.name" #name="ngModel">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                  <div *ngIf="name.errors.required">Item Name is required.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Category
+                  <span>*</span>
+                </label>
+                <select class="custom-select col-12" required name="category" [ngModel]="menuItem?.category" #category="ngModel">
+                  <option *ngFor="let option of categoryList" [value]="option.id">{{option.name}}</option>
+                </select>
+                <div *ngIf="category.invalid && (category.dirty || category.touched)" class="alert alert-danger">
+                  <div *ngIf="category.errors.required">Category is required.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Description
+                </label>
+                <input type="text" class="form-control" name="desc" #desc="ngModel" [ngModel]="menuItem?.desc">
+              </div>
+              <div class="form-group">
+                <label>Price
+                  <span>*</span>
+                </label>
+                <input class="form-control" type="number" name="price" required [ngModel]="menuItem?.price" #price="ngModel">
+                <div *ngIf="price.invalid && (price.dirty || price.touched)" class="alert alert-danger">
+                  <div *ngIf="price.errors.required">Price is required.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="card" ngModelGroup="display">
+            <div class="card-body">
+              <div class="form-group">
+                <label>Product Image </label>
+                <br/>
+                <input type="file" (change)="uploadFile($event, 'image')" accept=".png,.jpg" />
+                <input type="hidden" name="image" [ngModel]="menuItem?.display?.image">
+                <br>
+                <span class="help-block">
+                  <small> Maximum File Size : 5mb. Supported file formats : .png & .jpg </small>
+                </span>
+                <br>
+                <div *ngIf="menuItem?.display?.image">
+                  <img [src]="menuItem?.display?.image" class="menuItem-img-big-icon">
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('image')">Delete</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Type </label>
+                <br />
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="vegetarian" name="serve" [ngModel]="menuItem?.display?.serve" #serve="ngModel"
+                        value="Veg">
+                      <label class="custom-control-label" for="vegetarian">Vegetarian</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="nonveg" name="serve" [ngModel]="menuItem?.display?.serve" #serve="ngModel"
+                        value="NonVeg">
+                      <label class="custom-control-label" for="nonveg">Non-Veg</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="vegan" name="serve" [ngModel]="menuItem?.display?.serve" #serve="ngModel"
+                        value="Vegan">
+                      <label class="custom-control-label" for="vegan">Vegan</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Display Ribbon
+                </label>
+                <select class="form-control" name="ribbon" [ngModel]="menuItem?.display?.ribbon" #ribbon="ngModel">
+                  <option *ngFor="let option of displayRibbonList" [value]="option.value">{{option.label}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body" ngModelGroup="modifier">
+              <h4 class="card-title">Modifier</h4>
+              <hr>
+              <div class="form-group">
+                <label>Global Modifier
+                </label>
+                <ng-select [items]="modifierList" bindLabel="name" bindValue="id" name="modifiers" [ngModel]="menuItem?.modifier?.modifiers"
+                  #modifiers="ngModel" [multiple]="true" [closeOnSelect]="false">
+                </ng-select>
+              </div>
+              <label>Add Modifier Size</label>
+              <div class="form-grouping-wrapper my-3" ngModelGroup="size">
+                <div class="row" *ngFor="let row of menuItem?.modifier?.size; let i = index" [ngModelGroup]="i">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Name </label>
+                      <input class="form-control" type="text" name="name" required [ngModel]="row?.name" #name="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Price </label>
+                      <input class="form-control" type="number" name="price" required [ngModel]="row?.price" #price="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Size based Modifier</label>
+                      <ng-select [items]="modifierList" bindLabel="name" required bindValue="id" name="addons" [ngModel]="row?.addons" #addons="ngModel"
+                        [multiple]="true" [closeOnSelect]="false">
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <br>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteModifierSize(i)">x</button>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-sm btn-success" (click)="addMoreModifierSizes()">+ Add Size</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="menuItemID">Update</button>
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="!menuItemID">Submit</button>
+        <button type="button" class="btn btn-lg btn-inverse waves-effect waves-light" [routerLink]="['../../../menu-builder']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

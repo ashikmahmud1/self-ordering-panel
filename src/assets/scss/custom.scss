@@ -1,0 +1,33 @@
+.sidebar-nav ul li a:hover {
+  text-decoration: none;
+}
+
+$placeholder-color: #bbb;
+.form-group {
+  ::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: $placeholder-color;
+  }
+  :-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: $placeholder-color;
+    opacity: 1;
+  }
+  ::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: $placeholder-color;
+    opacity: 1;
+  }
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $placeholder-color;
+  }
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: $placeholder-color;
+  }
+  ::placeholder {
+    /* Most modern browsers support this now. */
+    color: $placeholder-color;
+  }
+}

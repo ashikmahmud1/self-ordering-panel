@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="text-center title" *ngIf="!menuID">Add Menu</h1>
+    <h1 class="text-center title" *ngIf="menuID">Edit Menu</h1>
+    <br>
+    <form class="form-horizontal" id="menuForm" #MenuForm="ngForm" (ngSubmit)="addMenu(MenuForm)">
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Menu Name
+                      <span>*</span>
+                    </label>
+                    <input class="form-control" type="text" name="name" required [ngModel]="menu?.name" #name="ngModel">
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                      <div *ngIf="name.errors.required">Menu Name is required.</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Menu Description
+                    </label>
+                    <input type="text" name="desc" #desc="ngModel" [ngModel]="menu?.desc" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Categories
+                      <span>*</span>
+                    </label>
+                    <ng-select [items]="menuItems" bindLabel="name" bindValue="id" name="category" required [ngModel]="menu?.category" #category="ngModel"
+                      [multiple]="true" [closeOnSelect]="false">
+                    </ng-select>
+                    <div *ngIf="category.invalid && (category.dirty || category.touched)" class="alert alert-danger">
+                      <div *ngIf="category.errors.required">Categories is required.</div>
+                    </div>
+                  </div>
+                  <label>Menu Availability</label>
+                  <div class="form-grouping-wrapper my-3" ngModelGroup="opHrs">
+                    <div class="row" *ngFor="let opHr of menu?.opHrs; let i = index" [ngModelGroup]="i">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label>Day
+                          </label>
+                          <select class="custom-select col-12" name="day" [ngModel]="opHr?.day" #day="ngModel" required>
+                            <option *ngFor="let option of dayList" [value]="option.value">{{option.label}}</option>
+                          </select>
+                          <div *ngIf="day.invalid && (day.dirty || day.touched)" class="alert alert-danger">
+                            <div *ngIf="day.errors.required">Day is required.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>From</label>
+                          <select class="form-control" name="fromTime" [ngModel]="opHr?.fromTime" #fromTime="ngModel" required>
+                            <option *ngFor="let option of this.fireDB.getTimeRangeArray()" [value]="option.value">{{option.label}}</option>
+                          </select>
+                          <div *ngIf="fromTime.invalid && (fromTime.dirty || fromTime.touched)" class="alert alert-danger">
+                            <div *ngIf="fromTime.errors.required">Day is required.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>To</label>
+                          <select class="form-control" name="toTime" [ngModel]="opHr?.toTime" #toTime="ngModel" required>
+                            <option *ngFor="let option of this.fireDB.getTimeRangeArray()" [value]="option.value">{{option.label}}</option>
+                          </select>
+                          <div *ngIf="toTime.invalid && (toTime.dirty || toTime.touched)" class="alert alert-danger">
+                            <div *ngIf="toTime.errors.required">Day is required.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-1 mt-1">
+                        <br>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteOperatingHour(i)">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text-center">
+                      <button type="button" class="btn btn-sm btn-success" (click)="addMoreOperatingHours()">
+                        <i class="fa fa-plus"></i> &nbsp; Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="menuID">Update</button>
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="!menuID">Submit</button>
+        <button type="button" class="btn btn-lg btn-inverse waves-effect waves-light" [routerLink]="['../..']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

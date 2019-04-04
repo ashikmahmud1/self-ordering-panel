@@ -1,0 +1,116 @@
+<h1 class="text-center title" *ngIf="!outletID">Add New Restaurant</h1>
+<h1 class="text-center title" *ngIf="outletID">Edit Restaurant</h1>
+<br>
+<form class="form-horizontal" id="outletForm" #OutletForm="ngForm" (ngSubmit)="addOutlet(OutletForm)">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label>Restaurant Name
+              <span>*</span>
+            </label>
+            <input class="form-control" type="text" name="name" required [ngModel]="outlet?.name" #name="ngModel">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+              <div *ngIf="name.errors.required">Restaurant Name is required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="isDisable" name="isDisable" [ngModel]="outlet?.isDisable">
+              <label class="custom-control-label" for="isDisable">Disable Restaurant</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Restaurant Logo
+            </label>
+            <input type="file" (change)="uploadFile($event, 'image')" accept=".png,.jpg" />
+            <input type="hidden" name="image" [ngModel]="outlet?.image">
+            <br>
+            <br>
+            <div *ngIf="outlet?.image">
+              <img [src]="outlet?.image" class="outlet-img-big-icon">
+              <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('image')">Delete</button>
+            </div>
+            <span class="help-block">
+              <small> Maximum File Size : 5mb. Supported file formats : .png & .jpg </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Website
+            </label>
+            <input class="form-control" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+              type="text" name="website" [ngModel]="outlet?.website" #website="ngModel">
+            <div *ngIf="website.errors && (website.dirty || website.touched)" class="alert alert-danger">
+              <div [hidden]="!website.errors.pattern">
+                Enter a valid URL!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Sales Tax Percent
+            </label>
+            <input class="form-control" type="number" name="tax" [ngModel]="outlet?.tax" #tax="ngModel" />
+          </div>
+
+          <div class="form-group">
+            <label>Order Type
+            </label>
+            <div class="row" ngModelGroup="ordertype">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="forhere" name="forhere" [ngModel]="outlet?.ordertype?.forhere">
+                    <label class="custom-control-label" for="forhere">For Here </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="togo" name="togo" [ngModel]="outlet?.ordertype?.togo">
+                    <label class="custom-control-label" for="togo">To Go</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Omnivore API
+            </label>
+            <input class="form-control" type="text" name="omnivore" [ngModel]="outlet?.omnivore" #omnivore="ngModel" />
+          </div>
+          <div class="form-group">
+            <label>Google Analytics
+            </label>
+            <textarea class="form-control" rows="3" name="analytics" [ngModel]="outlet?.analytics" #analytics="ngModel"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Confirmation Page
+            </label>
+            <quill-editor name="confirmation" [ngModel]="outlet?.confirmation" #confirmation="ngModel" [style]="{height: '150px'}" [modules]="quillToolbar"></quill-editor>
+          </div>
+          <div class="form-group">
+            <label>Credit Card Decline Error Message
+            </label>
+            <textarea class="form-control" rows="3" name="errmag" [ngModel]="outlet?.errmag" #errmag="ngModel"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Currency
+            </label>
+            <select class="form-control" name="currency" [ngModel]="outlet?.currency" #currency="ngModel">
+              <option *ngFor="let option of currencyList" [value]="option.value">{{option.label}}</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="!outletID">Create Restaurant</button>
+    <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="outletID">Update</button>
+    <button type="button" class="btn btn-lg btn-inverse waves-effect waves-light" [routerLink]="['../..']">Cancel</button>
+  </div>
+</form>

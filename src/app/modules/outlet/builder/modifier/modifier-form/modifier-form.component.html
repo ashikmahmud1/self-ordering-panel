@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="text-center title" *ngIf="!modifierID">Add Modifier</h1>
+    <h1 class="text-center title" *ngIf="modifierID">Edit Modifier</h1>
+    <form class="form-horizontal" id="modifierForm" #ModifierForm="ngForm" (ngSubmit)="addModifier(ModifierForm)">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Modifier Group Name
+                      <span>*</span>
+                    </label>
+                    <input class="form-control" type="text" name="name" required [ngModel]="modifier?.name" #name="ngModel">
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                      <div *ngIf="name.errors.required">Modifier Group Name is required.</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="isMultiChoice" name="isMultiChoice" [ngModel]="modifier?.isMultiChoice"
+                        #multiChoice="ngModel">
+                      <label class="custom-control-label" for="isMultiChoice">Allow Multiple Choice</label>
+                    </div>
+                  </div>
+                  <div class="row" [hidden]="!multiChoice.value">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Minimum Choice
+                          <span>*</span>
+                        </label>
+                        <input class="form-control" type="number" name="minChoice" [required]="multiChoice.value" [ngModel]="modifier?.minChoice"
+                          #minChoice="ngModel">
+                        <div *ngIf="minChoice.invalid && (minChoice.dirty || minChoice.touched)" class="alert alert-danger">
+                          <div *ngIf="minChoice.errors.required">Minimum Choice is required.</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Maximum Choice
+                          <span>*</span>
+                        </label>
+                        <input class="form-control" type="number" name="maxChoice" [required]="multiChoice.value" [ngModel]="modifier?.maxChoice"
+                          #maxChoice="ngModel">
+                        <div *ngIf="maxChoice.invalid && (maxChoice.dirty || maxChoice.touched)" class="alert alert-danger">
+                          <div *ngIf="maxChoice.errors.required">Maximum Choice is required.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <label>Add Modifier Items</label>
+              <div class="form-grouping-wrapper my-3" ngModelGroup="item">
+                <div class="row" *ngFor="let row of modifier?.item; let i = index" [ngModelGroup]="i">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Modifier Item </label>
+                      <input class="form-control" type="text" name="name" required [ngModel]="row?.name" #name="ngModel">
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                        <div *ngIf="name.errors.required">Maximum Choice is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Price </label>
+                      <input class="form-control" type="number" name="price" required [ngModel]="row?.price" #price="ngModel">
+                      <div *ngIf="price.invalid && (price.dirty || price.touched)" class="alert alert-danger">
+                        <div *ngIf="price.errors.required">Maximum Choice is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <br>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteRow(i)">x</button>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-sm btn-success" (click)="addMoreRows()">+ Add Modifier Item</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="modifierID">Update</button>
+        <button type="submit" class="btn btn-lg btn-success waves-effect waves-light m-r-10" *ngIf="!modifierID">Submit</button>
+        <button type="button" class="btn btn-lg btn-inverse waves-effect waves-light" [routerLink]="['../../../menu-builder']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
